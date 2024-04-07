@@ -1,25 +1,24 @@
+import { ReactElement, ReactNode } from 'react';
 import React, { createContext, useContext, useState } from 'react';
-import style from './styles.module.css';
-import type { ReactElement, ReactNode } from 'react';
 
-export type FolderProps = {
+interface FolderProps {
   name: string;
   label?: ReactElement;
   open?: boolean;
   defaultOpen?: boolean;
   onToggle?: (open: boolean) => void;
   children?: ReactNode;
-};
+}
 
-export type FileProps = {
+interface FileProps {
   name: string;
   label?: ReactElement;
   active?: boolean;
-};
+}
 
-export type FileTreeProps = {
+interface FileTreeProps {
   children: ReactNode;
-};
+}
 
 const ctx = createContext(0);
 
@@ -30,11 +29,11 @@ function useIndent() {
 function Ident(): ReactElement {
   const length = useIndent();
   return (
-    <>
+    <div className="flex">
       {Array.from({ length }, (_, i) => (
-        <span key={i} />
+        <p className="!w-5" key={i} />
       ))}
-    </>
+    </div>
   );
 }
 
@@ -49,13 +48,16 @@ const Folder: React.FC<FolderProps> = ({ children, name, defaultOpen }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen || false);
   const indent = useIndent();
   const handleToggle = () => {
-    setIsOpen((prev) => !prev);
+    setIsOpen(prev => !prev);
   };
 
   return (
     <div>
-      <Ident />
-      <div className={style?.folder}>
+      <div
+        className="cursor-pointer flex items-center gap-2 text-foreground w-fit hover:text-muted-foreground select-none"
+        onClick={handleToggle}
+      >
+        <Ident />
         <svg width="1em" height="1em" viewBox="0 0 24 24">
           <path
             fill="none"
@@ -70,10 +72,10 @@ const Folder: React.FC<FolderProps> = ({ children, name, defaultOpen }) => {
             }
           />
         </svg>
-        <div onClick={handleToggle}>{name}</div>
+        <div>{name}</div>
       </div>
       {isOpen && (
-        <ul className={style?.innerFolder}>
+        <ul className="mt-0">
           <ctx.Provider value={indent + 1}>{children}</ctx.Provider>
         </ul>
       )}
@@ -84,8 +86,8 @@ const Folder: React.FC<FolderProps> = ({ children, name, defaultOpen }) => {
 const File: React.FC<FileProps> = ({ name }) => {
   return (
     <div>
-      <Ident />
-      <div className={style?.file}>
+      <div className="flex items-center gap-2">
+        <Ident />
         <svg width="1em" height="1em" viewBox="0 0 24 24">
           <path
             fill="none"
