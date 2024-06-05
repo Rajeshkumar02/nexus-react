@@ -1,7 +1,13 @@
 import 'react-app-polyfill/ie11';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { Button, FileTree, FileTreeFile, FileTreeFolder } from '../dist';
+import {
+  Button,
+  FileTree,
+  FileTreeFile,
+  FileTreeFolder,
+  Callout,
+} from '../dist';
 
 const App = () => {
   return (
@@ -14,6 +20,8 @@ const App = () => {
       >
         hello
       </Button>
+
+      <Callout type={'error'}>This is Callout</Callout>
 
       <FileTree>
         <FileTreeFolder name="NotesApp" defaultOpen>

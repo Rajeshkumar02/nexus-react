@@ -75,7 +75,7 @@ const Folder: React.FC<FolderProps> = ({ children, name, defaultOpen }) => {
         <div>{name}</div>
       </div>
       {isOpen && (
-        <ul className="mt-0">
+        <ul className={`mt-0`}>
           <ctx.Provider value={indent + 1}>{children}</ctx.Provider>
         </ul>
       )}
